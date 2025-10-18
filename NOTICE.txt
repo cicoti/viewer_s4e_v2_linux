@@ -1,0 +1,103 @@
+NOTICE
+
+This software includes third-party libraries and resources. Below is a list of components and their licenses.
+
+───────────────────────────────────────────────────────────────
+GStreamer Java Bindings (gst1-java-core, gst1-java-swing)
+License: GNU Lesser General Public License (LGPL) v2.1
+Source: https://github.com/gstreamer-java/gst1-java-core
+Notes: Used in unmodified binary form for multimedia processing.
+
+───────────────────────────────────────────────────────────────
+GStreamer Native Plugins (system packages):
+
+- gstreamer1.0-tools
+- gstreamer1.0-plugins-base
+- gstreamer1.0-plugins-good
+- gstreamer1.0-plugins-bad
+- gstreamer1.0-plugins-ugly
+
+License: GNU Lesser General Public License (LGPL) v2.1
+Notes: Used in unmodified form. No modifications were made.
+
+───────────────────────────────────────────────────────────────
+GStreamer Plugin: `gstreamer1.0-libav`
+License: LGPL v2.1 (**verified via gst-inspect**)
+Source: https://gstreamer.freedesktop.org/modules/gst-libav.html
+Notes: This plugin provides access to libav/FFmpeg codecs, including `avdec_h264`. License check confirmed via:
+
+    gst-inspect-1.0 avdec_h264
+    → License: LGPL
+
+The plugin was built without GPL components and is safe for commercial use.
+
+───────────────────────────────────────────────────────────────
+Java Native Access (JNA)
+License: GNU Lesser General Public License (LGPL) v2.1
+Source: https://github.com/java-native-access/jna
+Notes: Used in unmodified binary form for native OS access.
+
+───────────────────────────────────────────────────────────────
+Jackson (Databind)
+License: Apache License 2.0
+Source: https://github.com/FasterXML/jackson
+
+───────────────────────────────────────────────────────────────
+Gson
+License: Apache License 2.0
+Source: https://github.com/google/gson
+
+───────────────────────────────────────────────────────────────
+FlatLaf & FlatLaf Fonts (Roboto)
+License: Apache License 2.0
+Source: https://www.formdev.com/flatlaf/
+Roboto Font Source: https://github.com/googlefonts/roboto
+
+───────────────────────────────────────────────────────────────
+MigLayout
+License: BSD
+Source: http://www.miglayout.com/
+
+───────────────────────────────────────────────────────────────
+Apache CXF
+License: Apache License 2.0
+Source: https://cxf.apache.org/
+
+───────────────────────────────────────────────────────────────
+JAXB (API and Runtime)
+License: Eclipse Public License / CDDL
+Source: https://github.com/eclipse-ee4j/jaxb-api
+
+───────────────────────────────────────────────────────────────
+PureJavaComm
+License: BSD
+Source: https://github.com/nyholku/purejavacomm
+
+───────────────────────────────────────────────────────────────
+Vernacular (ShinyHut VNC Client)
+License: MIT
+Source: https://github.com/shinyhut/vernacular
+
+───────────────────────────────────────────────────────────────
+SLF4J and Logback
+License: MIT (SLF4J), EPL 1.0 (Logback)
+Source: https://www.slf4j.org/ and https://logback.qos.ch/
+
+───────────────────────────────────────────────────────────────
+ByteBuddy
+License: Apache License 2.0
+Source: https://bytebuddy.net/
+
+───────────────────────────────────────────────────────────────
+Commons Codec
+License: Apache License 2.0
+Source: https://commons.apache.org/proper/commons-codec/
+
+───────────────────────────────────────────────────────────────
+SOAP API
+License: CDDL 1.1
+Source: https://github.com/javaee/metro-saaj
+
+───────────────────────────────────────────────────────────────
+
+This application respects all licensing terms. No modifications were made to LGPL components. These libraries are used dynamically and independently.

@@ -1,0 +1,41 @@
+# =====================
+# Diretórios de build
+# =====================
+/bin/
+/target/
+
+# =====================
+# Configurações locais
+# =====================
+/.settings/
+.settings/org.eclipse.jdt.core.prefs
+.classpath
+
+# =====================
+# Arquivos de configuração e licença
+# =====================
+/configuracao/
+licenca/licenca.cfg
+*.cfg
+*.prefs
+
+# =====================
+# Logs e arquivos temporários
+# =====================
+*.log
+
+# =====================
+# Artefatos gerados
+# =====================
+*.jar
+*.exe
+*.dll
+
+# =====================
+# Bibliotecas grandes não versionadas
+# =====================
+jcef/
+library/jcef.jar
+
+/VideoDecodeStats
+/swt/

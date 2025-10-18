@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\projetos\ctech\executavel\s4e-viewer\viewer.jar</jar>
+  <outfile>C:\projetos\ctech\executavel\s4e-viewer\viewer.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\projetos\ctech\executavel\s4e-viewer\icos4e.ico</icon>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>true</requires64Bit>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+    <initialHeapSize>1024</initialHeapSize>
+    <maxHeapSize>4096</maxHeapSize>
+    <opt>-XX:+UseG1GC  -Dsun.java2d.opengl=true</opt>
+  </jre>
+</launch4jConfig>

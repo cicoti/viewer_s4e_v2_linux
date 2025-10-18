@@ -1,0 +1,27 @@
+This software is provided under a proprietary license. However, it includes the following open-source components:
+
+• GStreamer Java Bindings – LGPL v2.1
+• Java Native Access (JNA) – LGPL v2.1
+• Jackson Databind – Apache 2.0
+• Gson – Apache 2.0
+• FlatLaf & Fonts – Apache 2.0
+• MigLayout – BSD
+• Apache CXF – Apache 2.0
+• JAXB – EPL / CDDL
+• PureJavaComm – BSD
+• Vernacular – MIT
+• SLF4J – MIT
+• Logback – EPL 1.0
+• ByteBuddy – Apache 2.0
+• Commons Codec – Apache 2.0
+• SOAP API – CDDL 1.1
+
+For LGPL components, dynamic linking is used and no modifications have been made. Copies of the LGPL v2.1 license are available at:
+
+https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+For other licenses (Apache, MIT, BSD, etc.), their respective texts are available at:
+
+https://opensource.org/licenses/
+
+If you have questions or need access to source code of any LGPL components, please contact: [sua empresa ou e-mail de compliance]
