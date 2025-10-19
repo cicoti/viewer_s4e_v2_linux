@@ -397,9 +397,14 @@ public class Viewer implements Serializable {
 			frame.setBounds(result);
 
 			layeredPane = new JLayeredPane();
+			layeredPane.setLayout(null); // 🔧 permite mover componentes livremente
 
 			sideMenuPanel = new CustomRoundedPanel(20, 20);
 			sideMenuPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
+
+			// Define posição inicial e tamanho fixo
+			sideMenuPanel.setBounds(result.width - 130, 20, 130, 390); // posição inicial
+			layeredPane.add(sideMenuPanel, JLayeredPane.POPUP_LAYER);
 
 			// Cria o JWindow com o menu como conteúdo
 			JWindow menuWindow = new JWindow(frame); // ou null, se não quiser associado ao JFrame
@@ -431,31 +436,30 @@ public class Viewer implements Serializable {
 			closeButton.setPreferredSize(new Dimension(16, 16)); // Define o tamanho do botão, se necessário
 			closeButton.setBorder(BorderFactory.createEmptyBorder());
 			closeButton.setContentAreaFilled(false);
+			
+			closeButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					final int DELAY = 10;
+					final int STEP = isMenuExpanded ? -4 : 4;
+					final int TARGET = sideMenuPanel.getX() + (isMenuExpanded ? -85 : 85);
+					Timer timer = new Timer(DELAY, new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							int x = sideMenuPanel.getX() + STEP;
 
-			closeButton.addActionListener(e -> {
-				final int DELAY = 10;
-				final int STEP = isMenuExpanded ? -4 : 4;
-				final int TARGET = menuWindow.getX() + (isMenuExpanded ? -85 : 85);
+							if ((STEP > 0 && x >= TARGET) || (STEP < 0 && x <= TARGET)) {
+								x = TARGET;
+								((Timer) e.getSource()).stop();
 
-				Timer timer = new Timer(DELAY, new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						int x = menuWindow.getX() + STEP;
+								closeButton.setIcon(new ImageIcon(Viewer.class
+										.getResource(isMenuExpanded ? "/icons/fechar.png" : "/icons/abrir.png")));
 
-						if ((STEP > 0 && x >= TARGET) || (STEP < 0 && x <= TARGET)) {
-							x = TARGET;
-							((Timer) e.getSource()).stop();
-
-							closeButton.setIcon(new ImageIcon(Viewer.class
-									.getResource(isMenuExpanded ? "/icons/fechar.png" : "/icons/abrir.png")));
-
-							isMenuExpanded = !isMenuExpanded;
+								isMenuExpanded = !isMenuExpanded;
+							}
+							sideMenuPanel.setLocation(x, sideMenuPanel.getY());
 						}
-
-						menuWindow.setLocation(x, menuWindow.getY());
-					}
-				});
-
-				timer.start();
+					});
+					timer.start();
+				}
 			});
 
 			closeButtonPanel.add(closeButton);
