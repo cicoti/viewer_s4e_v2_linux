@@ -70,15 +70,15 @@ public class Main {
             return;  // Encerra o programa se já houver uma instância rodando
         }
 
-        // Comando para desativar a interface Wi-Fi
+     // Desativa interface Wi-Fi no Ubuntu/Linux
         try {
-            String command = "netsh interface set interface Wi-Fi admin=disable";
-            Process process = Runtime.getRuntime().exec(command);
+            String command = "nmcli radio wifi off"; // Alternativa: "rfkill block wifi"
+            Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
             printStream(process.getInputStream(), "OUTPUT");
             printStream(process.getErrorStream(), "ERROR");
             process.waitFor();
         } catch (IOException | InterruptedException e) {
-            logger.error("Falha ao executar o comando ou interrompido.", e);
+            logger.error("Falha ao executar comando para desativar Wi-Fi.", e);
         }
 
         // Inicializa a interface do usuário
