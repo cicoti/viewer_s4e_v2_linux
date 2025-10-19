@@ -120,42 +120,73 @@ public class ScreenRecorder {
     }
 
     private Pipeline startScreenRecording(MonitorDTO monitorDTO, String outputFileName) {
-   	
+
         String monitor = "monitor" + monitorDTO.getNumber();
         String pipelineDesc;
 
+        // Obtém dimensões do monitor — assumindo que seu MonitorDTO já traz x, y, width, height.
+        int startX = monitorDTO.getX();
+        int startY = monitorDTO.getY();
+        int width  = monitorDTO.getWidth();
+        int height = monitorDTO.getHeight();
+
+        logger.info("Iniciando gravação do monitor {} na área: x={}, y={}, width={}, height={}",
+                monitorDTO.getNumber(), startX, startY, width, height);
+
+        // Define o framerate e bitrate com base na qualidade configurada
+        int frameRate = 15;
+        int bitrate;
         switch (gravacaoDTO.getQualidade()) {
             case "640x360":
-                pipelineDesc = "d3d11screencapturesrc monitor-index=" + monitorDTO.getNumber()
-                        + " ! videoconvert ! videoscale"
-                        + " ! video/x-raw,width=640,height=360,framerate=15/1"
-                        + " ! queue ! x264enc bitrate=500 speed-preset=superfast tune=zerolatency key-int-max=120"
-                        + " ! mp4mux ! filesink location=\"" + outputFileName + "\"";
+                width = 640;
+                height = 360;
+                bitrate = 500;
                 break;
             case "1280x720":
-                pipelineDesc = "d3d11screencapturesrc monitor-index=" + monitorDTO.getNumber()
-                        + " ! videoconvert ! videoscale"
-                        + " ! video/x-raw,width=1280,height=720,framerate=15/1"
-                        + " ! queue ! x264enc bitrate=750 speed-preset=ultrafast tune=zerolatency key-int-max=60"
-                        + " ! mp4mux ! filesink location=\"" + outputFileName + "\"";
+                width = 1280;
+                height = 720;
+                bitrate = 750;
                 break;
             case "1920x1080":
-                pipelineDesc = "d3d11screencapturesrc monitor-index=" + monitorDTO.getNumber()
-                        + " ! videoconvert ! videoscale"
-                        + " ! video/x-raw,width=1920,height=1080,framerate=15/1"
-                        + " ! queue ! x264enc bitrate=2000 speed-preset=fast tune=zerolatency key-int-max=30"
-                        + " ! mp4mux ! filesink location=\"" + outputFileName + "\"";
+                width = 1920;
+                height = 1080;
+                bitrate = 2000;
                 break;
             default:
                 throw new IllegalArgumentException("Qualidade desconhecida: " + gravacaoDTO.getQualidade());
         }
 
+        /*
+         *  🎥 PIPELINE PARA LINUX (X11)
+         *  - ximagesrc: captura da tela no X11
+         *  - startx/starty/endx/endy: área de captura do monitor
+         *  - videoconvert/videoscale: converte e redimensiona
+         *  - x264enc + mp4mux: codifica e grava
+         */
+        pipelineDesc = String.format(
+            "ximagesrc use-damage=0 show-pointer=false startx=%d starty=%d endx=%d endy=%d "
+          + "! videoconvert ! videoscale "
+          + "! video/x-raw,width=%d,height=%d,framerate=%d/1 "
+          + "! queue "
+          + "! x264enc bitrate=%d speed-preset=ultrafast tune=zerolatency key-int-max=60 "
+          + "! mp4mux ! filesink location=\"%s\"",
+          startX, startY, startX + width, startY + height,
+          width, height, frameRate,
+          bitrate, outputFileName
+        );
+
+        logger.debug("Pipeline gerado: {}", pipelineDesc);
+
         Pipeline pipeline = (Pipeline) Gst.parseLaunch(pipelineDesc);
         pipeline.getBus().connect((Bus.MESSAGE) (bus, message) -> handleBusMessage(message));
         activePipelines.add(pipeline);
         pipeline.play();
+
+        logger.info("Pipeline do monitor {} iniciado com sucesso. Gravando em {}", monitor, outputFileName);
+
         return pipeline;
     }
+
 
     private void handleBusMessage(Message message) {
         if (message.getType() == MessageType.EOS) {
@@ -191,6 +222,7 @@ public class ScreenRecorder {
 
         activePipelines.clear();
         isRecording = false;
+        Gst.deinit(); 
         logger.info("Todas as gravações foram encerradas e recursos liberados.");
     }
 
